@@ -8,16 +8,14 @@ import java.net.Socket;
 public class SimpleServer {
     public static void main(String[] args) throws IOException {
 
-        var server = new ServerSocket(1600);
+        var serverSocket = new ServerSocket(1600);
         System.out.println("Waiting");
 
-        Socket socket = server.accept();
-        System.out.println("Connected from " + socket.getInetAddress());
+        try(Socket socket = serverSocket.accept();
+            InputStream inputStream = socket.getInputStream()) {
 
-        InputStream inputStream = socket.getInputStream();
-        System.out.println(inputStream.read());
-
-        socket.close();
-        inputStream.close();
+            System.out.println("Connected from " + socket.getInetAddress());
+            System.out.println(inputStream.read());
+        }
     }
 }
