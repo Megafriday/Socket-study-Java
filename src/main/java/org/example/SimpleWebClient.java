@@ -1,5 +1,7 @@
 package org.example;
 
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,8 +11,9 @@ import java.net.Socket;
 public class SimpleWebClient {
     public static void main(String[] args) throws IOException {
         var domain = "example.com";
+        var socketFactory = SSLSocketFactory.getDefault();
 
-        try( var socket = new Socket(domain, 80);
+        try( var socket = socketFactory.createSocket(domain, 443);
              var printWriter = new PrintWriter(socket.getOutputStream());
              var inputStreamReader = new InputStreamReader(socket.getInputStream());
              var bufferedReader = new BufferedReader(inputStreamReader)){
